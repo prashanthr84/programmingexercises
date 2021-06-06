@@ -1,3 +1,4 @@
+using System;
 using Exercises;
 using Exercises.Caching;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -10,48 +11,50 @@ namespace Cache.Tests  {
         [TestMethod]
         public void ShouldAddAnItemToCacheWhenEmpty() {
             Cache cache = new Cache(3);
-            ImageDescription item = new ImageDescription();
-            cache.AddItem(item);
-            Assert.IsNotNull(cache.TryGetItem(item.Id), "item not found in cache");
+            ImageDescription item = new ImageDescription() {
+                InstanceUid = Guid.NewGuid().ToString()
+            };
+            cache.PutItem(item.InstanceUid, item);
+            Assert.IsNotNull(cache.GetItem(item.InstanceUid), "item not found in cache");
         }
 
         [TestMethod, Ignore]
         [ExpectedException(typeof(InvalidCacheKeyException))]
         public void ShouldThrowExceptionWhenCacheKeyIsInvalid()  {
             Cache cache = new Cache(3);
-            ImageDescription item = new ImageDescription();
-            cache.AddItem(item);
-            Assert.IsNotNull(cache.TryGetItem(item.Id), "item not found in cache");
+            ImageDescription item = new ImageDescription() {InstanceUid = Guid.NewGuid().ToString()};
+            cache.PutItem(item.InstanceUid, item);
+            Assert.IsNotNull(cache.GetItem(item.InstanceUid), "item not found in cache");
         }
 
         [TestMethod]
         public void ShouldRemoveLRUItemWhenCacheIsFull() {
             Cache cache = new Cache(3);
-            ImageDescription item1 = new ImageDescription();
-            cache.AddItem(item1);
+            ImageDescription item1 = new ImageDescription() {InstanceUid = Guid.NewGuid().ToString()};
+            cache.PutItem(item1.InstanceUid, item1);
 
-            var item2 = new ImageDescription();
-            cache.AddItem(item2);
+            var item2 = new ImageDescription() { InstanceUid = Guid.NewGuid().ToString() };
+            cache.PutItem(item2.InstanceUid, item2);
 
-            var item3 = new ImageDescription();
-            cache.AddItem(item3);
+            var item3 = new ImageDescription() { InstanceUid = Guid.NewGuid().ToString() };
+            cache.PutItem(item3.InstanceUid, item3);
             // Cache is full.
 
             // Make item3 as the least recently used.
-            Assert.IsNotNull(cache.TryGetItem(item1.Id));
-            Assert.IsNotNull(cache.TryGetItem(item2.Id));
+            Assert.IsNotNull(cache.GetItem(item1.InstanceUid));
+            Assert.IsNotNull(cache.GetItem(item2.InstanceUid));
 
-            var item4 = new ImageDescription();
-            cache.AddItem(item4);
+            var item4 = new ImageDescription() { InstanceUid = Guid.NewGuid().ToString() };
+            cache.PutItem(item4.InstanceUid, item4);
 
-            Assert.IsNull(cache.TryGetItem(item3.Id), "least recently used item is not removed from cache");
-            Assert.IsNotNull(item4.Id);
+            Assert.IsNull(cache.GetItem(item3.InstanceUid), "least recently used item is not removed from cache");
+            Assert.IsNotNull(item4.InstanceUid);
         }
 
         [TestMethod]
         public void ShouldReturnNullWhenCacheMiss()  {
             Cache cache = new Cache(3);
-            var cachedItem = cache.TryGetItem("123");
+            var cachedItem = cache.GetItem("123");
             Assert.IsNull(cachedItem);
         }
 
