@@ -15,8 +15,8 @@ namespace Cache {
             linkedList = new LinkedList<ImageDescription>();
         }
 
-        public void AddItem(ImageDescription item) {
-            if (string.IsNullOrWhiteSpace(item.Id)) {
+        public void PutItem(string key, ImageDescription value) {
+            if (string.IsNullOrWhiteSpace(key)) {
                 throw new InvalidCacheKeyException();
             }
 
@@ -24,25 +24,25 @@ namespace Cache {
                 RemoveLeastRecentlyUsedItem();
             }
 
-            if (cacheDictionary.ContainsKey(item.Id)) {
+            if (cacheDictionary.ContainsKey(key)) {
                 // update node ?
                 // Move the node to the front of the linked list
 
 
             } else  {
-                LinkedListNode<ImageDescription> node = new LinkedListNode<ImageDescription>(item);
+                LinkedListNode<ImageDescription> node = new LinkedListNode<ImageDescription>(value);
                 linkedList.AddFirst(node);
-                cacheDictionary.Add(item.Id, node);
+                cacheDictionary.Add(key, node);
             }
         }
 
         private void RemoveLeastRecentlyUsedItem()  {
             var lastNode = linkedList.Last;
             linkedList.RemoveLast();
-            cacheDictionary.Remove(lastNode.Value.Id);
+            cacheDictionary.Remove(lastNode.Value.InstanceUid);
         }
 
-        public ImageDescription TryGetItem(string id) {
+        public ImageDescription GetItem(string id) {
             if (!cacheDictionary.ContainsKey(id)) {
                 return null;
             }
