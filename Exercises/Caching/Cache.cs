@@ -5,14 +5,10 @@ using Exercises.Caching;
 namespace Cache {
     public class Cache {
 
-        private readonly LinkedList<ImageDescription> linkedList;
-        private Dictionary<string, LinkedListNode<ImageDescription>> cacheDictionary;
         private readonly int cacheSize = 10;
 
         public Cache(int cacheSize) {
             this.cacheSize = cacheSize;
-            cacheDictionary = new Dictionary<string, LinkedListNode<ImageDescription>>(cacheSize);
-            linkedList = new LinkedList<ImageDescription>();
         }
 
         public void PutItem(string key, ImageDescription value) {
@@ -20,36 +16,31 @@ namespace Cache {
                 throw new InvalidCacheKeyException();
             }
 
-            if(cacheDictionary.Count == cacheSize) {
+            //todo:// Checck if the cache is full. if true then remove the recently used item.
+            if (IsCacheFull())  {
                 RemoveLeastRecentlyUsedItem();
-            }
-
-            if (cacheDictionary.ContainsKey(key)) {
-                // update node ?
-                // Move the node to the front of the linked list
-
-
             } else  {
-                LinkedListNode<ImageDescription> node = new LinkedListNode<ImageDescription>(value);
-                linkedList.AddFirst(node);
-                cacheDictionary.Add(key, node);
+                AddItemToCache();
             }
+            // todo:// else simply add item to cache.
+        }
+
+        private void AddItemToCache() {
+            //todo://
+        }
+
+        private bool IsCacheFull() {
+            //todo://
+            return false;
         }
 
         private void RemoveLeastRecentlyUsedItem()  {
-            var lastNode = linkedList.Last;
-            linkedList.RemoveLast();
-            cacheDictionary.Remove(lastNode.Value.InstanceUid);
+            //todo://
         }
 
-        public ImageDescription GetItem(string id) {
-            if (!cacheDictionary.ContainsKey(id)) {
-                return null;
-            }
-            var node = cacheDictionary[id];
-            linkedList.Remove(node);
-            linkedList.AddFirst(node);
-            return node.Value;
+        public ImageDescription GetItem(string id)  {
+            //todo:// if the item present return the item else return null.
+            return null;
         }
     }
 }
