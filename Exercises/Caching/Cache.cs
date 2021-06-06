@@ -24,12 +24,7 @@ namespace Cache {
                 RemoveLeastRecentlyUsedItem();
             }
 
-            if (cacheDictionary.ContainsKey(key)) {
-                // update node ?
-                // Move the node to the front of the linked list
-
-
-            } else  {
+            if (!cacheDictionary.ContainsKey(key)) {
                 LinkedListNode<ImageDescription> node = new LinkedListNode<ImageDescription>(value);
                 linkedList.AddFirst(node);
                 cacheDictionary.Add(key, node);

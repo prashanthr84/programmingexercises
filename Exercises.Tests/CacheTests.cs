@@ -11,7 +11,7 @@ namespace Cache.Tests  {
         [TestMethod]
         public void ShouldAddAnItemToCacheWhenEmpty() {
             Cache cache = new Cache(3);
-            ImageDescription item = new ImageDescription() {
+            Image item = new Image() {
                 InstanceUid = Guid.NewGuid().ToString()
             };
             cache.PutItem(item.InstanceUid, item);
@@ -22,7 +22,7 @@ namespace Cache.Tests  {
         [ExpectedException(typeof(InvalidCacheKeyException))]
         public void ShouldThrowExceptionWhenCacheKeyIsInvalid()  {
             Cache cache = new Cache(3);
-            ImageDescription item = new ImageDescription() {InstanceUid = Guid.NewGuid().ToString()};
+            Image item = new Image() {InstanceUid = Guid.NewGuid().ToString()};
             cache.PutItem(item.InstanceUid, item);
             Assert.IsNotNull(cache.GetItem(item.InstanceUid), "item not found in cache");
         }
@@ -30,13 +30,13 @@ namespace Cache.Tests  {
         [TestMethod]
         public void ShouldRemoveLRUItemWhenCacheIsFull() {
             Cache cache = new Cache(3);
-            ImageDescription item1 = new ImageDescription() {InstanceUid = Guid.NewGuid().ToString()};
+            Image item1 = new Image() {InstanceUid = Guid.NewGuid().ToString()};
             cache.PutItem(item1.InstanceUid, item1);
 
-            var item2 = new ImageDescription() { InstanceUid = Guid.NewGuid().ToString() };
+            var item2 = new Image() { InstanceUid = Guid.NewGuid().ToString() };
             cache.PutItem(item2.InstanceUid, item2);
 
-            var item3 = new ImageDescription() { InstanceUid = Guid.NewGuid().ToString() };
+            var item3 = new Image() { InstanceUid = Guid.NewGuid().ToString() };
             cache.PutItem(item3.InstanceUid, item3);
             // Cache is full.
 
@@ -44,7 +44,7 @@ namespace Cache.Tests  {
             Assert.IsNotNull(cache.GetItem(item1.InstanceUid));
             Assert.IsNotNull(cache.GetItem(item2.InstanceUid));
 
-            var item4 = new ImageDescription() { InstanceUid = Guid.NewGuid().ToString() };
+            var item4 = new Image() { InstanceUid = Guid.NewGuid().ToString() };
             cache.PutItem(item4.InstanceUid, item4);
 
             Assert.IsNull(cache.GetItem(item3.InstanceUid), "least recently used item is not removed from cache");
