@@ -5,17 +5,17 @@ using Exercises.Caching;
 namespace Cache {
     public class Cache {
 
-        private readonly LinkedList<ImageDescription> linkedList;
-        private Dictionary<string, LinkedListNode<ImageDescription>> cacheDictionary;
+        private readonly LinkedList<Image> linkedList;
+        private Dictionary<string, LinkedListNode<Image>> cacheDictionary;
         private readonly int cacheSize = 10;
 
         public Cache(int cacheSize) {
             this.cacheSize = cacheSize;
-            cacheDictionary = new Dictionary<string, LinkedListNode<ImageDescription>>(cacheSize);
-            linkedList = new LinkedList<ImageDescription>();
+            cacheDictionary = new Dictionary<string, LinkedListNode<Image>>(cacheSize);
+            linkedList = new LinkedList<Image>();
         }
 
-        public void PutItem(string key, ImageDescription value) {
+        public void PutItem(string key, Image value) {
             if (string.IsNullOrWhiteSpace(key)) {
                 throw new InvalidCacheKeyException();
             }
@@ -25,7 +25,7 @@ namespace Cache {
             }
 
             if (!cacheDictionary.ContainsKey(key)) {
-                LinkedListNode<ImageDescription> node = new LinkedListNode<ImageDescription>(value);
+                LinkedListNode<Image> node = new LinkedListNode<Image>(value);
                 linkedList.AddFirst(node);
                 cacheDictionary.Add(key, node);
             }
@@ -37,7 +37,7 @@ namespace Cache {
             cacheDictionary.Remove(lastNode.Value.InstanceUid);
         }
 
-        public ImageDescription GetItem(string id) {
+        public Image GetItem(string id) {
             if (!cacheDictionary.ContainsKey(id)) {
                 return null;
             }
