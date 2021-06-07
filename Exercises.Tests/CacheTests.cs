@@ -47,7 +47,8 @@ namespace Cache.Tests  {
             var item4 = new ImageDescription() { InstanceUid = Guid.NewGuid().ToString() };
             cache.PutItem(item4.InstanceUid, item4);
 
-            Assert.IsNull(cache.GetItem(item3.InstanceUid), "least recently used item is not removed from cache");
+            //Vishal - changed this
+            Assert.IsNull(cache.GetItem(item1.InstanceUid), "least recently used item is not removed from cache");
             Assert.IsNotNull(item4.InstanceUid);
         }
 
