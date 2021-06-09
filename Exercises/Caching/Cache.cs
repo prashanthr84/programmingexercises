@@ -46,7 +46,14 @@ namespace Cache {
         public ImageDescription GetItem(string id)  {
             //todo:// if the item present return the item else return null.
             if (dictionaryDoublyLinkedList.ContainsKey(id))
-                return dictionaryDoublyLinkedList[id].Data.Value;
+            {
+                // Reshuffle the Linked List ordering
+                // Return the result 
+                // I would like a asynchronous call here fro re-shuffling but as of now I am making a synchronous flow
+                var nodeData = doublyLinkedList.BringNodeToFront(dictionaryDoublyLinkedList[id]);
+                dictionaryDoublyLinkedList[id] = nodeData;
+                return nodeData.Data.Value;
+            }
             return null;
         }
     }
@@ -95,9 +102,40 @@ namespace Cache {
             size++;
             return HeadNode;
         }
-        public void BringNodeToFront()
+        public Node BringNodeToFront(Node nodeToShuffle)
         {
+            //Three cases can exist
+            //1. Node is the only node, i.e Node to shuffle is the head node
+            // Nothing will be done in this case
+            if (nodeToShuffle.Previous == null)
+                return nodeToShuffle;
+            //2. Node is the last node, i.e Tail node
+            Node temp;
+            if(nodeToShuffle.Next == null)
+            {
+                temp = TailNode.Previous;
+                temp.Next = null;
+                TailNode = temp;
 
+                // Add the shuffledNode to the front ofthe list
+                temp = HeadNode;
+                nodeToShuffle.Next = temp;
+                temp.Previous = nodeToShuffle;
+                nodeToShuffle.Previous = null;
+                HeadNode = nodeToShuffle;
+
+                return HeadNode;
+            }
+            // 3. If node to shuffle is in the middle
+            var prevNode = nodeToShuffle.Previous;
+            prevNode.Next = nodeToShuffle.Next;
+
+            temp = HeadNode;
+            nodeToShuffle.Next = temp;
+            nodeToShuffle.Previous = null;
+            HeadNode = nodeToShuffle;
+
+            return HeadNode;
         }
 
         public Node DeleteNodeFromEnd()
