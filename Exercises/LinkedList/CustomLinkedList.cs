@@ -6,17 +6,17 @@ namespace Exercises.LinkedList {
     /// Provides an custom implemented linked list data structure exposing
     /// methods to manipulate and read the contents of the list.
     /// </summary>
-    public class CustomLinkedList {
+    public class CustomLinkedList<T> {
 
-        public CustomNode First { get; private set; }
-        public CustomNode Last { get; private set; }
+        public CustomNode<T> First { get; private set; }
+        public CustomNode<T> Last { get; private set; }
 
-        public void AddFirst(CustomNode node) {
+        public void AddFirst(CustomNode<T> node) {
             if (node is null) {
                 throw new ArgumentNullException(nameof(node));
             }
 
-            if (string.IsNullOrWhiteSpace(node.Data)) {
+            if (node.Equals(default(T))) {
                 throw new InvalidNodeDataException();
             }
 
@@ -30,12 +30,12 @@ namespace Exercises.LinkedList {
             }
         }
 
-        public void AddLast(CustomNode node) {
+        public void AddLast(CustomNode<T> node) {
             if (node is null) {
                 throw new ArgumentNullException(nameof(node));
             }
 
-            if (node.Data is null) {
+            if (node.Data.Equals(default(T))) {
                 throw new InvalidNodeDataException();
             }
 

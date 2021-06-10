@@ -10,27 +10,27 @@ namespace Exercises.Tests.LinkedList {
 
         [TestMethod]
         public void ShouldAddAnElementToTheFirstPosition() {
-            CustomLinkedList linkedList = new CustomLinkedList();
-            CustomNode node = new CustomNode(Guid.NewGuid().ToString());
+            CustomLinkedList<string> linkedList = new CustomLinkedList<string>();
+            CustomNode<string> node = new CustomNode<string>(Guid.NewGuid().ToString());
             linkedList.AddFirst(node);
-            CustomNode firstNode = linkedList.First;
+            CustomNode<string> firstNode = linkedList.First;
             Assert.IsNotNull(firstNode);
             Assert.AreEqual(node.Data, firstNode.Data, "Incorrect data in the retrieved first node");
         }
 
         [TestMethod]
         public void ShouldAddAnElementToFirstPositionToExistingList() {
-            CustomLinkedList linkedList = new CustomLinkedList();
-            CustomNode firstNode = new CustomNode(Guid.NewGuid().ToString());
+            CustomLinkedList<string> linkedList = new CustomLinkedList<string>();
+            CustomNode<string> firstNode = new CustomNode<string>(Guid.NewGuid().ToString());
             linkedList.AddFirst(firstNode);
 
-            CustomNode secondNode = new CustomNode(Guid.NewGuid().ToString());
+            CustomNode<string> secondNode = new CustomNode<string>(Guid.NewGuid().ToString());
             linkedList.AddFirst(secondNode);
 
-            CustomNode thirdNode = new CustomNode(Guid.NewGuid().ToString());
+            CustomNode<string> thirdNode = new CustomNode<string>(Guid.NewGuid().ToString());
             linkedList.AddFirst(thirdNode);
 
-            CustomNode retrievedFirstNode = linkedList.First;
+            CustomNode<string> retrievedFirstNode = linkedList.First;
             Assert.IsNotNull(retrievedFirstNode);
             Assert.AreEqual(thirdNode.Data, retrievedFirstNode.Data, "Incorrect data in the retrieved first node");
         }
@@ -38,23 +38,23 @@ namespace Exercises.Tests.LinkedList {
         [TestMethod]
         [ExpectedException(typeof(ArgumentNullException))]
         public void ShouldHandleNullWhenAddingLastNode() {
-            var linkedList = new CustomLinkedList();
+            var linkedList = new CustomLinkedList<string>();
             linkedList.AddLast(null);
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidNodeDataException))]
         public void ShouldHandleNullDataWhenAddingLastNode() {
-            var linkedList = new CustomLinkedList();
-            linkedList.AddLast(new CustomNode(null));
+            var linkedList = new CustomLinkedList<string>();
+            linkedList.AddLast(new CustomNode<string>(null));
         }
 
         [TestMethod]
         public void ShouldReadDataFromAllNodesFromFirstNode() {
-            CustomLinkedList linkedList = new CustomLinkedList();
-            var firstNode = new CustomNode(Guid.NewGuid().ToString());
-            var secondNode = new CustomNode(Guid.NewGuid().ToString());
-            var thirdNode = new CustomNode(Guid.NewGuid().ToString());
+            CustomLinkedList<string> linkedList = new CustomLinkedList<string>();
+            var firstNode = new CustomNode<string>(Guid.NewGuid().ToString());
+            var secondNode = new CustomNode<string>(Guid.NewGuid().ToString());
+            var thirdNode = new CustomNode<string>(Guid.NewGuid().ToString());
 
             linkedList.AddFirst(firstNode);
             linkedList.AddFirst(secondNode);
@@ -75,62 +75,62 @@ namespace Exercises.Tests.LinkedList {
 
         [TestMethod, ExpectedException(typeof(ArgumentNullException))]
         public void ShouldHandleNullInput() {
-            CustomLinkedList linkedList = new CustomLinkedList();
+            CustomLinkedList<string> linkedList = new CustomLinkedList<string>();
             linkedList.AddFirst(null);
         }
 
         [TestMethod]
         [ExpectedException(typeof(InvalidNodeDataException))]
         public void ShouldHandleNullValueForNodeData() {
-            var customLinkedList = new CustomLinkedList();
-            CustomNode node = new CustomNode(null);
+            var customLinkedList = new CustomLinkedList<string>();
+            CustomNode<string> node = new CustomNode<string>(null);
             customLinkedList.AddFirst(node);
         }
 
         [TestMethod]
         public void ShouldGetFirstNode() {
-            var customLinkedList = new CustomLinkedList();
-            customLinkedList.AddFirst(new CustomNode(Guid.NewGuid().ToString()));
-            customLinkedList.AddFirst(new CustomNode(Guid.NewGuid().ToString()));
-            var node = new CustomNode(Guid.NewGuid().ToString());
+            var customLinkedList = new CustomLinkedList<string>();
+            customLinkedList.AddFirst(new CustomNode<string>(Guid.NewGuid().ToString()));
+            customLinkedList.AddFirst(new CustomNode<string>(Guid.NewGuid().ToString()));
+            var node = new CustomNode<string>(Guid.NewGuid().ToString());
             customLinkedList.AddFirst(node);
             Assert.AreEqual(node, customLinkedList.First);
         }
 
         [TestMethod]
         public void ShouldGetLastNodeWhenListIsEmpty() {
-            var customLinkedList = new CustomLinkedList();
-            CustomNode node = new CustomNode(Guid.NewGuid().ToString());
+            var customLinkedList = new CustomLinkedList<string>();
+            CustomNode<string> node = new CustomNode<string>(Guid.NewGuid().ToString());
             customLinkedList.AddFirst(node);
             Assert.AreEqual(node, customLinkedList.Last);
         }
 
         [TestMethod]
         public void ShouldGetLastNodeWhenListIsNotEmpty() {
-            var customLinkedList = new CustomLinkedList();
-            CustomNode node = new CustomNode(Guid.NewGuid().ToString());
+            var customLinkedList = new CustomLinkedList<string>();
+            CustomNode<string> node = new CustomNode<string>(Guid.NewGuid().ToString());
             customLinkedList.AddFirst(node);
-            customLinkedList.AddFirst(new CustomNode(Guid.NewGuid().ToString()));
-            customLinkedList.AddFirst(new CustomNode(Guid.NewGuid().ToString()));
+            customLinkedList.AddFirst(new CustomNode<string>(Guid.NewGuid().ToString()));
+            customLinkedList.AddFirst(new CustomNode<string>(Guid.NewGuid().ToString()));
             Assert.AreEqual(node, customLinkedList.Last);
         }
 
         [TestMethod]
         public void ShouldAddNodeAtLastWhenListIsEmpty() {
-            var linkedList = new CustomLinkedList();
-            var node = new CustomNode(Guid.NewGuid().ToString());
+            var linkedList = new CustomLinkedList<string>();
+            var node = new CustomNode<string>(Guid.NewGuid().ToString());
             linkedList.AddLast(node);
             Assert.AreEqual(node, linkedList.Last);
         }
 
         [TestMethod]
         public void ShouldAddLastNodeWhenListIsNotEmpty() {
-            var linkedList = new CustomLinkedList();
-            var node1 = new CustomNode(Guid.NewGuid().ToString());
+            var linkedList = new CustomLinkedList<string>();
+            var node1 = new CustomNode<string>(Guid.NewGuid().ToString());
             linkedList.AddLast(node1);
-            var node2 = new CustomNode(Guid.NewGuid().ToString());
+            var node2 = new CustomNode<string>(Guid.NewGuid().ToString());
             linkedList.AddLast(node2);
-            var node3 = new CustomNode(Guid.NewGuid().ToString());
+            var node3 = new CustomNode<string>(Guid.NewGuid().ToString());
             linkedList.AddLast(node3);
 
             Assert.AreEqual(node3, linkedList.Last);

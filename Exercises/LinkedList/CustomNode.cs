@@ -1,15 +1,15 @@
 ﻿namespace Exercises.LinkedList {
 
-    public class CustomNode  {
+    public class CustomNode<T>  {
 
-        public CustomNode(string data) {
+        public CustomNode(T data) {
             Data = data;
         }
 
-        public CustomNode Previous { get; set; }
+        public CustomNode<T> Previous { get; set; }
 
-        public string Data { get; }
+        public T Data { get; }
 
-        public CustomNode Next { get; set; }
+        public CustomNode<T> Next { get; set; }
     }
 }
