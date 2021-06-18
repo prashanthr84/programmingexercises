@@ -7,15 +7,31 @@ namespace Exercises.Tests {
     [TestClass]
     public class InPlaceMergeOfSortedSinglyLinkedListTests {
 
+        /*
+             * Input:
+               
+               First List: 2 —> 6 —> 9 —> 10 —> 15 —> NULL
+               Second List: 1 —> 4 —> 5 —> 20 —> NULL
+               
+               Output:
+               
+               First List: 1 —> 2 —> 4 —> 5 —> 6 —> NULL
+               Second List: 9 —> 10 —> 15 —> 20 —> NULL
+        *
+        */
+
         [TestMethod]
         public void ShouldHandle2ListsWhenBothAreEmpty() {
             LinkedList<int> list1 = new LinkedList<int>();
             LinkedList<int> list2 = new LinkedList<int>();
 
-            var merger = new SortedLinkedListMerger();
+            var merger = new SortedInPlaceLinkedListMerger();
 
-            LinkedList<int> mergedList = merger.Merge(list1, list2);
-            Assert.IsTrue(mergedList.Count == 0);
+            merger.Merge(list1, list2);
+            Assert.IsNotNull(list1);
+            Assert.IsNotNull(list2);
+            Assert.IsTrue(list1.Count == 0);
+            Assert.IsTrue(list2.Count == 0);
         }
 
         [TestMethod]
@@ -24,10 +40,9 @@ namespace Exercises.Tests {
             LinkedList<int> list2 = new LinkedList<int>();
             list2.AddFirst(1);
 
-            var merger = new SortedLinkedListMerger();
-            var mergedList = merger.Merge(list1, list2);
-            Assert.IsTrue(mergedList.Count == 1);
-            Assert.AreEqual(1, mergedList.First.Value);
+            var merger = new SortedInPlaceLinkedListMerger();
+            merger.Merge(list1, list2);
+            Assert.AreEqual(1, list2.First.Value);
         }
 
         [TestMethod]
@@ -37,16 +52,15 @@ namespace Exercises.Tests {
             list2.AddFirst(1);
             list1.AddFirst(2);
 
-            var merger = new SortedLinkedListMerger();
-            var mergedList = merger.Merge(list1, list2);
-            Assert.IsTrue(mergedList.Count == 2);
-            Assert.AreEqual(1, mergedList.First.Value);
-            Assert.IsNotNull(mergedList.First.Next);
-            Assert.AreEqual(2, mergedList.First.Next.Value);
+            var merger = new SortedInPlaceLinkedListMerger();
+            merger.Merge(list1, list2);
+            Assert.AreEqual(1, list1.First.Value);
+            Assert.AreEqual(2, list2.First.Value);
         }
 
         [TestMethod]
         public void ShouldMergeWhenListContainsManyDistinctElements() {
+
             LinkedList<int> list1 = new LinkedList<int>();
             LinkedList<int> list2 = new LinkedList<int>();
             int[] values = {0,1,2,3,4,5,6,10,11};
@@ -62,14 +76,21 @@ namespace Exercises.Tests {
             list1.AddFirst(values[1]);
             list1.AddFirst(values[0]);
 
-            var merger = new SortedLinkedListMerger();
-            var mergedList = merger.Merge(list1, list2);
+            var merger = new SortedInPlaceLinkedListMerger();
+            merger.Merge(list1, list2);
 
-            Assert.IsTrue(mergedList.Count == 9);
-            Assert.IsNotNull(mergedList.First);
-            LinkedListNode<int> node = mergedList.First;
-            
+            LinkedListNode<int> node = list1.First;
+
+            Assert.AreEqual(5, list1.Count);
+            Assert.AreEqual(4, list2.Count);
+
             int i = 0;
+            while (node != null) {
+                Assert.AreEqual(values[i++], node.Value);
+                node = node.Next;
+            }
+
+            node = list2.First;
             while (node != null) {
                 Assert.AreEqual(values[i++], node.Value);
                 node = node.Next;
