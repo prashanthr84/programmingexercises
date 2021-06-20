@@ -97,5 +97,44 @@ namespace Exercises.Tests {
             }
         }
 
+        [TestMethod]
+        public void ShouldMergeWhenSecondListHasMoreElements() {
+
+            LinkedList<int> list1 = new LinkedList<int>();
+            LinkedList<int> list2 = new LinkedList<int>();
+            int[] values = { 0, 1, 2, 3, 4, 5, 6, 10, 11 };
+
+            list1.AddFirst(values[8]);
+            list1.AddFirst(values[6]);
+            list1.AddFirst(values[4]);
+            list1.AddFirst(values[2]);
+
+            list2.AddFirst(values[7]);
+            list2.AddFirst(values[5]);
+            list2.AddFirst(values[3]);
+            list2.AddFirst(values[1]);
+            list2.AddFirst(values[0]);
+
+            var merger = new SortedInPlaceLinkedListMerger();
+            merger.Merge(list1, list2);
+
+            LinkedListNode<int> node = list1.First;
+
+            Assert.AreEqual(4, list1.Count);
+            Assert.AreEqual(5, list2.Count);
+
+            int i = 0;
+            while (node != null) {
+                Assert.AreEqual(values[i++], node.Value);
+                node = node.Next;
+            }
+
+            node = list2.First;
+            while (node != null) {
+                Assert.AreEqual(values[i++], node.Value);
+                node = node.Next;
+            }
+        }
+
     }
 }
